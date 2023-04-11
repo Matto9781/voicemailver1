@@ -99,8 +99,8 @@ function voicemail_get_config($engine) {
 
 			/* end vm-callme context  */
 if ($mailbox->getVoicemailEnabled() == 'disabled') {
-    $agi->exec('Playback', 'usextnomailbox');
-    $agi->exec('Playback', 'usextnomailbox');
+    $agi->exec('Playback', 'vm-nobox');
+    $agi->exec('Playback', 'vm-nobox');
     $agi->hangup();
 }        
             
