@@ -98,7 +98,12 @@ function voicemail_get_config($engine) {
 			$ext->add($context, 'h', '', new ext_hangup());
 
 			/* end vm-callme context  */
-
+if ($mailbox->getVoicemailEnabled() == 'disabled') {
+    $agi->exec('Playback', 'usextnomailbox');
+    $agi->exec('Playback', 'usextnomailbox');
+    $agi->hangup();
+}        
+            
 			if (is_array($featurelist = featurecodes_getModuleFeatures($modulename))) {
 				foreach($featurelist as $item) {
 					$featurename = $item['featurename'];
@@ -582,7 +587,7 @@ function voicemail_configpageload() {
 		);
 		$currentcomponent->addguielem($section, new $rb(array_merge($guidefaults,$el)),$category);
 
-		$novmstar = !empty($extdisplay) ? $astman->connected() && $astman->database_get("AMPUSER", $extdisplay."/novmstar") : 'yes';
+		$novmstar = !empty($extdisplay) ? $astman->connected() && $astman->database_get("AMPUSER", $extdisplay."/novmstar") : 'no';
 		$novmstar = !empty($novmstar) ? 'yes' : 'no';
 		$el = array(
 			"elemname" => "novmstar",
